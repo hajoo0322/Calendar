@@ -55,4 +55,15 @@ public class UserTest {
         Assertions.assertNotNull(calendar);
         Assertions.assertTrue(calendar.size() > 0);
     }
+
+    @Test
+    public void pageTest() throws SQLException, ClassNotFoundException {
+        CalendarDao calendarDao = new CalendarDao();
+        List<Calendar> pageCalendar = calendarDao.getPageCalendar(1, 10);
+
+        Assertions.assertNotNull(pageCalendar);
+        Assertions.assertTrue(pageCalendar.size()<=10);
+        System.out.println(pageCalendar.size());
+
+    }
 }

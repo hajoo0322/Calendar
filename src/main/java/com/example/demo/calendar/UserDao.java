@@ -4,6 +4,12 @@ import java.sql.*;
 
 
 public class UserDao {
+    JdbcRepository jdbcRepository;
+
+    public UserDao() {
+        this.jdbcRepository = new OldRepository();
+    }
+
     public void add(User user) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection c = DriverManager.getConnection(

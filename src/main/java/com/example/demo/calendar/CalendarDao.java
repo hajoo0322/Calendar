@@ -12,11 +12,14 @@ import java.util.List;
 
 public class CalendarDao {
 
+    JdbcRepository jdbcRepository;
+
+    public CalendarDao() {
+        this.jdbcRepository = new OldRepository();
+    }
+
     public void addCalender(UserCalendarRequest calendar) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/newboard", "root", "123123"
-        );
+        Connection c = jdbcRepository.makeConnection();
         PreparedStatement ps = c.prepareStatement(
                 "insert into calendar(id, userName, date, details) values (?,?,?,?)"
         );
@@ -32,10 +35,7 @@ public class CalendarDao {
     public List<Calendar> getCalendar(User user, String date) throws ClassNotFoundException, SQLException {
         List<Calendar> calendarList = new ArrayList<>();  // 결과를 담을 리스트
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/newboard", "root", "123123"
-        );
+        Connection c = jdbcRepository.makeConnection();
         String sqlQuery = ""; // 쿼리가 문자열로 작성되니까 객체에 담아서 파라미터로 전달하도록함
 
         if (user.getId() != null && date != null) {// 둘모두 값을 가지고있을때
@@ -76,10 +76,7 @@ public class CalendarDao {
     }
 
     public Calendar getPortionCalendar(User user) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/newboard", "root", "123123"
-        );
+        Connection c = jdbcRepository.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "SELECT  * FROM calendar WHERE id = ? LIMIT 1"
@@ -106,10 +103,7 @@ public class CalendarDao {
     }
 
     public Calendar changeDetails(Calendar calendar,String detail) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/newboard", "root", "123123"
-        );
+        Connection c = jdbcRepository.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "UPDATE calendar SET details = ? WHERE details =?"
@@ -137,10 +131,7 @@ public class CalendarDao {
     }
 
     public void deleteCalendar(Calendar calendar) throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/newboard", "root", "123123"
-        );
+        Connection c = jdbcRepository.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "DELETE FROM calendar WHERE details = ?"
@@ -153,17 +144,14 @@ public class CalendarDao {
     }
 
     public List<Calendar> getPageCalendar(int page, int pageSize) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/newboard", "root", "123123"
-        );
+        Connection c = jdbcRepository.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "SELECT * FROM calendar LIMIT ? OFFSET ?"
         );
 
-        ps.setInt(1, page);
-        ps.setInt(2, pageSize);
+        ps.setInt(1, pageSize);
+        ps.setInt(2, (page-1)*pageSize);
         ResultSet rs = ps.executeQuery();
         List<Calendar> calendarList = new ArrayList<>();
         while (rs.next()) {

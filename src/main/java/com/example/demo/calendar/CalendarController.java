@@ -22,7 +22,7 @@ public class CalendarController {
     }
 
     @GetMapping("/pageGet")
-    public List<Calendar> getPageCalendar(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+    public List<Calendar> getPageCalendar(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) throws SQLException, ClassNotFoundException {
         CalendarDao calendarDao =new CalendarDao();
         return calendarDao.getPageCalendar(page, pageSize);
 
