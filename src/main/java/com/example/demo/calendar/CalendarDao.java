@@ -92,8 +92,15 @@ public class CalendarDao {
             calendar.setUserName(rs.getString("userName"));
             calendar.setDate(rs.getString("date"));
             calendar.setDetails(rs.getString("details"));
+
+            rs.close();
+            ps.close();
+            c.close();
             return calendar;
         } else {
+            rs.close();
+            ps.close();
+            c.close();
             throw new SQLException();
         }
     }
@@ -121,6 +128,11 @@ public class CalendarDao {
         ps2.executeUpdate();
 
         calendar.setDetails(detail);
+
+        ps2.close();
+        ps.close();
+        c.close();
+
         return calendar;
     }
 
@@ -135,5 +147,35 @@ public class CalendarDao {
         );
         ps.setString(1, calendar.getDetails());
         ps.executeUpdate();
+
+        ps.close();
+        c.close();
+    }
+
+    public List<Calendar> getPageCalendar(int page, int pageSize) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection c = DriverManager.getConnection(
+                "jdbc:mysql://localhost/newboard", "root", "123123"
+        );
+
+        PreparedStatement ps = c.prepareStatement(
+                "SELECT * FROM calendar LIMIT ? OFFSET ?"
+        );
+
+        ps.setInt(1, page);
+        ps.setInt(2, pageSize);
+        ResultSet rs = ps.executeQuery();
+        List<Calendar> calendarList = new ArrayList<>();
+        while (rs.next()) {
+            Calendar calendar = new Calendar();
+            calendar.setUserName(rs.getString("username"));
+            calendar.setDetails(rs.getString("details"));
+            calendar.setDate(rs.getString("date"));
+            calendarList.add(calendar);
+        }
+        rs.close();
+        ps.close();
+        c.close();
+        return calendarList;
     }
 }

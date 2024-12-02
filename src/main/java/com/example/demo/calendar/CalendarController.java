@@ -21,6 +21,13 @@ public class CalendarController {
         return calendarDao.getPortionCalendar(user);
     }
 
+    @GetMapping("/pageGet")
+    public List<Calendar> getPageCalendar(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        CalendarDao calendarDao =new CalendarDao();
+        return calendarDao.getPageCalendar(page, pageSize);
+
+    }
+
     @PostMapping("/addCalendar")
     public void setCalendar(@RequestBody UserCalendarRequest calendar) throws SQLException, ClassNotFoundException {
         CalendarDao calendarDao = new CalendarDao();
