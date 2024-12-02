@@ -1,17 +1,15 @@
-package com.example.demo.calendar.service;
+package com.example.demo.calendar.repository;
 
 import com.example.demo.calendar.entity.User;
 import com.example.demo.calendar.entity.UserRequest;
-import com.example.demo.calendar.repository.JdbcRepository;
-import com.example.demo.calendar.repository.OldRepository;
 
 import java.sql.*;
 
 
-public class UserDao {
+public class UserRepository {
     JdbcRepository jdbcRepository;
 
-    public UserDao(JdbcRepository jdbcRepository) {
+    public UserRepository(JdbcRepository jdbcRepository) {
         this.jdbcRepository = jdbcRepository;
     }
 

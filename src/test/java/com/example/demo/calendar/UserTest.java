@@ -5,8 +5,8 @@ import com.example.demo.calendar.entity.Calendar;
 import com.example.demo.calendar.entity.User;
 import com.example.demo.calendar.entity.UserCalendarRequest;
 import com.example.demo.calendar.repository.OldRepository;
-import com.example.demo.calendar.service.CalendarDao;
-import com.example.demo.calendar.service.UserDao;
+import com.example.demo.calendar.repository.CalendarRepository;
+import com.example.demo.calendar.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ public class UserTest {
         User user = new User();
         user.setName("한씨");
         user.setPassword("a123456");
-        UserDao userDao = new UserDao(new OldRepository());
+        UserRepository userDao = new UserRepository(new OldRepository());
         userDao.add(user);
     }
 
@@ -30,7 +30,7 @@ public class UserTest {
         User user = new User();
         user.setName("한씨");
         user.setPassword("a123456");
-        UserDao userDao = new UserDao(new OldRepository());
+        UserRepository userDao = new UserRepository(new OldRepository());
         User login = userDao.login(user);
         System.out.println(login.getId());
     }
@@ -47,7 +47,7 @@ public class UserTest {
         UserCalendarRequest userCalendarRequest = new UserCalendarRequest();
         userCalendarRequest.setUser(user);
         userCalendarRequest.setCalendar(calendar);
-        CalendarDao calendarDao = new CalendarDao();
+        CalendarRepository calendarDao = new CalendarRepository();
         calendarDao.addCalender(userCalendarRequest);
     }
 
@@ -55,7 +55,7 @@ public class UserTest {
     public void getCalendar() throws SQLException, ClassNotFoundException {
         User user = new User();
         user.setId(1L);
-        CalendarDao calendarDao = new CalendarDao();
+        CalendarRepository calendarDao = new CalendarRepository();
         List<Calendar> calendar = calendarDao.getCalendar(user,"2024-12-01");
         Assertions.assertNotNull(calendar);
         Assertions.assertTrue(calendar.size() > 0);
@@ -63,7 +63,7 @@ public class UserTest {
 
     @Test
     public void pageTest() throws SQLException, ClassNotFoundException {
-        CalendarDao calendarDao = new CalendarDao();
+        CalendarRepository calendarDao = new CalendarRepository();
         List<Calendar> pageCalendar = calendarDao.getPageCalendar(1, 10);
 
         Assertions.assertNotNull(pageCalendar);

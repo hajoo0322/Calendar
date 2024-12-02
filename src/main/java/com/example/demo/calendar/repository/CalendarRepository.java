@@ -1,10 +1,8 @@
-package com.example.demo.calendar.service;
+package com.example.demo.calendar.repository;
 
 import com.example.demo.calendar.entity.Calendar;
 import com.example.demo.calendar.entity.User;
 import com.example.demo.calendar.entity.UserCalendarRequest;
-import com.example.demo.calendar.repository.JdbcRepository;
-import com.example.demo.calendar.repository.OldRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,15 +13,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalendarDao {
+
+public class CalendarRepository {
 
     JdbcRepository jdbcRepository;
 
-    public CalendarDao(JdbcRepository jdbcRepository) {
+    public CalendarRepository(JdbcRepository jdbcRepository) {
         this.jdbcRepository = jdbcRepository;
     }
 
-    public CalendarDao() {
+    public CalendarRepository() {
         this.jdbcRepository = new OldRepository();
     }
 
@@ -32,6 +31,7 @@ public class CalendarDao {
         PreparedStatement ps = c.prepareStatement(
                 "insert into calendar(id, userName, date, details) values (?,?,?,?)"
         );
+
         ps.setLong(1, calendar.getUser().getId());
         ps.setString(2, calendar.getCalendar().getUserName());
         ps.setString(3, calendar.getCalendar().getDate());

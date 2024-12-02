@@ -1,7 +1,7 @@
 package com.example.demo.calendar.Controller;
 
 import com.example.demo.calendar.entity.User;
-import com.example.demo.calendar.service.UserDao;
+import com.example.demo.calendar.repository.UserRepository;
 import com.example.demo.calendar.entity.UserRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +10,9 @@ import java.sql.SQLException;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    UserDao userDao;
+    UserRepository userDao;
 
-    public UserController(UserDao userDao) {
+    public UserController(UserRepository userDao) {
         this.userDao = userDao;
     }
 
