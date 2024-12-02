@@ -1,9 +1,13 @@
 package com.example.demo.calendar;
 
 
+import com.example.demo.calendar.entity.Calendar;
+import com.example.demo.calendar.entity.User;
+import com.example.demo.calendar.entity.UserCalendarRequest;
+import com.example.demo.calendar.service.CalendarDao;
+import com.example.demo.calendar.service.UserDao;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.SQLException;
 import java.util.List;

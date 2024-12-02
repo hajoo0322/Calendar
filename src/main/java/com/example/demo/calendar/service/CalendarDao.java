@@ -1,7 +1,12 @@
-package com.example.demo.calendar;
+package com.example.demo.calendar.service;
+
+import com.example.demo.calendar.entity.Calendar;
+import com.example.demo.calendar.entity.User;
+import com.example.demo.calendar.entity.UserCalendarRequest;
+import com.example.demo.calendar.repository.JdbcRepository;
+import com.example.demo.calendar.repository.OldRepository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

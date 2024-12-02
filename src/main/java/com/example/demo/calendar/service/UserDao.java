@@ -1,4 +1,9 @@
-package com.example.demo.calendar;
+package com.example.demo.calendar.service;
+
+import com.example.demo.calendar.entity.User;
+import com.example.demo.calendar.entity.UserRequest;
+import com.example.demo.calendar.repository.JdbcRepository;
+import com.example.demo.calendar.repository.OldRepository;
 
 import java.sql.*;
 

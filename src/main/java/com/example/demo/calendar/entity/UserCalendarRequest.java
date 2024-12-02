@@ -1,4 +1,4 @@
-package com.example.demo.calendar;
+package com.example.demo.calendar.entity;
 
 public class UserCalendarRequest {
     private User user;
