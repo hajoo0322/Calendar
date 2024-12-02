@@ -11,10 +11,7 @@ public class UserDao {
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/newboard", "root", "123123"
-        );
+        Connection c = jdbcRepository.makeConnection();
 
         //서치를 해야함
         //예외처리 같은게있으면
@@ -31,10 +28,7 @@ public class UserDao {
 
     public User login(User user) throws ClassNotFoundException, SQLException {
         //로그인 서비스
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/newboard", "root", "123123"
-        );
+        Connection c = jdbcRepository.makeConnection();
         String name = user.getName();
         PreparedStatement ps = c.prepareStatement(
                 "SELECT * FROM users WHERE name = ?"
@@ -54,10 +48,7 @@ public class UserDao {
     }
 
     public User userNameChanger(UserRequest user) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/newboard", "root", "123123"
-        );
+        Connection c = jdbcRepository.makeConnection();
         PreparedStatement ps = c.prepareStatement(
                 "SELECT * FROM users WHERE name = ?"
         );
