@@ -14,10 +14,16 @@ public class UserController {
         return userDao.login(user);
     }
 
-    @PostMapping
+    @PostMapping("/addUser")
     public User addUser(@RequestBody User user) throws SQLException, ClassNotFoundException {
     UserDao userDao = new UserDao();
     userDao.add(user);
     return user;
+    }
+
+    @PutMapping("/changeUserName")
+    public User changeUserName(@RequestBody UserRequest user) throws SQLException, ClassNotFoundException {
+        UserDao userDao = new UserDao();
+        return userDao.userNameChanger(user);
     }
 }

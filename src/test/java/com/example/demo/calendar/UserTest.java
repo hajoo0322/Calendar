@@ -38,9 +38,12 @@ public class UserTest {
         user.setPassword("a123456");
         Calendar calendar = new Calendar();
         calendar.setUserName(user.getName());
-         calendar.setDetails("18시에 밥을먹는다.");
+        calendar.setDetails("18시에 밥을먹는다.");
+        UserCalendarRequest userCalendarRequest = new UserCalendarRequest();
+        userCalendarRequest.setUser(user);
+        userCalendarRequest.setCalendar(calendar);
         CalendarDao calendarDao = new CalendarDao();
-        calendarDao.addCalender(calendar,user);
+        calendarDao.addCalender(userCalendarRequest);
     }
 
     @Test

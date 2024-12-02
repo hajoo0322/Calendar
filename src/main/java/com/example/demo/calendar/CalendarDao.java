@@ -5,12 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CalendarDao {
 
-    public void addCalender(Calendar calendar, User user) throws ClassNotFoundException, SQLException {
+    public void addCalender(UserCalendarRequest calendar) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection c = DriverManager.getConnection(
                 "jdbc:mysql://localhost/newboard", "root", "123123"
@@ -18,10 +20,10 @@ public class CalendarDao {
         PreparedStatement ps = c.prepareStatement(
                 "insert into calendar(id, userName, date, details) values (?,?,?,?)"
         );
-        ps.setLong(1, user.getId());
-        ps.setString(2, calendar.getUserName());
-        ps.setString(3, calendar.getDate());
-        ps.setString(4, calendar.getDetails());
+        ps.setLong(1, calendar.getUser().getId());
+        ps.setString(2, calendar.getCalendar().getUserName());
+        ps.setString(3, calendar.getCalendar().getDate());
+        ps.setString(4, calendar.getCalendar().getDetails());
         ps.executeUpdate();
         ps.close();
         c.close();
@@ -94,7 +96,44 @@ public class CalendarDao {
         } else {
             throw new SQLException();
         }
+    }
 
-        public
+    public Calendar changeDetails(Calendar calendar,String detail) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection c = DriverManager.getConnection(
+                "jdbc:mysql://localhost/newboard", "root", "123123"
+        );
+
+        PreparedStatement ps = c.prepareStatement(
+                "UPDATE calendar SET details = ? WHERE details =?"
+        );
+        ps.setString(1,detail);
+        ps.setString(2,calendar.getDetails());
+        ps.executeUpdate();
+
+        PreparedStatement ps2 = c.prepareStatement(
+                "insert into calendar(date_modified) values (?)"
+        );
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String format = now.format(dateTimeFormatter);
+        ps2.setString(1,format);
+        ps2.executeUpdate();
+
+        calendar.setDetails(detail);
+        return calendar;
+    }
+
+    public void deleteCalendar(Calendar calendar) throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection c = DriverManager.getConnection(
+                "jdbc:mysql://localhost/newboard", "root", "123123"
+        );
+
+        PreparedStatement ps = c.prepareStatement(
+                "DELETE FROM calendar WHERE details = ?"
+        );
+        ps.setString(1, calendar.getDetails());
+        ps.executeUpdate();
     }
 }
