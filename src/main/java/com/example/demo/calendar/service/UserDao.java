@@ -11,8 +11,8 @@ import java.sql.*;
 public class UserDao {
     JdbcRepository jdbcRepository;
 
-    public UserDao() {
-        this.jdbcRepository = new OldRepository();
+    public UserDao(JdbcRepository jdbcRepository) {
+        this.jdbcRepository = jdbcRepository;
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {

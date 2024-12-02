@@ -4,6 +4,7 @@ package com.example.demo.calendar;
 import com.example.demo.calendar.entity.Calendar;
 import com.example.demo.calendar.entity.User;
 import com.example.demo.calendar.entity.UserCalendarRequest;
+import com.example.demo.calendar.repository.OldRepository;
 import com.example.demo.calendar.service.CalendarDao;
 import com.example.demo.calendar.service.UserDao;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +21,7 @@ public class UserTest {
         User user = new User();
         user.setName("한씨");
         user.setPassword("a123456");
-        UserDao userDao = new UserDao();
+        UserDao userDao = new UserDao(new OldRepository());
         userDao.add(user);
     }
 
@@ -29,7 +30,7 @@ public class UserTest {
         User user = new User();
         user.setName("한씨");
         user.setPassword("a123456");
-        UserDao userDao = new UserDao();
+        UserDao userDao = new UserDao(new OldRepository());
         User login = userDao.login(user);
         System.out.println(login.getId());
     }

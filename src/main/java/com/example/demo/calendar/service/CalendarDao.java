@@ -19,6 +19,10 @@ public class CalendarDao {
 
     JdbcRepository jdbcRepository;
 
+    public CalendarDao(JdbcRepository jdbcRepository) {
+        this.jdbcRepository = jdbcRepository;
+    }
+
     public CalendarDao() {
         this.jdbcRepository = new OldRepository();
     }
