@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 import java.util.List;
 
+//api/schedule/
 @RestController
 @RequestMapping("/api/schedule")
 public class CalendarController {
@@ -23,6 +24,7 @@ public class CalendarController {
 
     @GetMapping("/getAll/{date}")
     public List<Calendar> getCalender(@RequestBody User user, @PathVariable("date") String date) throws ClassNotFoundException, SQLException {
+
         return calendarDao.getCalendar(user, date);
     }
 

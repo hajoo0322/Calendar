@@ -10,16 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UserCalendarFactory {
 
-//    @Bean
-//    public CalendarController calendarController() {
-//        return new CalendarController(calendarDao(), userDao());
-//    }
-
-//    @Bean
-//    public UserController userController() {
-//        return new UserController(userDao());
-//    }
-
     @Bean
     public CalendarRepository calendarDao() {
         return new CalendarRepository(connectionmaker());
