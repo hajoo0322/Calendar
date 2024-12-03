@@ -1,9 +1,9 @@
 package com.example.demo.calendar;
 
 
-import com.example.demo.calendar.entity.Calendar;
-import com.example.demo.calendar.entity.User;
-import com.example.demo.calendar.entity.UserCalendarRequest;
+import com.example.demo.calendar.DTO.Calendar;
+import com.example.demo.calendar.DTO.User;
+import com.example.demo.calendar.DTO.UserCalendarRequest;
 import com.example.demo.calendar.repository.dbconnecter.OldRepository;
 import com.example.demo.calendar.repository.CalendarRepository;
 import com.example.demo.calendar.repository.UserRepository;
@@ -56,7 +56,7 @@ public class UserTest {
         User user = new User();
         user.setId(1L);
         CalendarRepository calendarDao = new CalendarRepository();
-        List<Calendar> calendar = calendarDao.getCalendar(user,"2024-12-01");
+        List<Calendar> calendar = calendarDao.getCalendar(user.getId(),"2024-12-01");
         Assertions.assertNotNull(calendar);
         Assertions.assertTrue(calendar.size() > 0);
     }

@@ -1,10 +1,13 @@
 package com.example.demo.calendar.repository;
 
-import com.example.demo.calendar.entity.Calendar;
-import com.example.demo.calendar.entity.User;
-import com.example.demo.calendar.entity.UserCalendarRequest;
+import com.example.demo.calendar.DTO.AllRounder;
+import com.example.demo.calendar.DTO.Calendar;
+import com.example.demo.calendar.DTO.User;
+import com.example.demo.calendar.DTO.UserCalendarRequest;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
-import com.example.demo.calendar.repository.dbconnecter.OldRepository;
+import com.example.demo.calendar.repository.execution.AddStatement;
+import com.example.demo.calendar.repository.execution.CalendarStatement;
+import com.example.demo.calendar.repository.execution.GetStatement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,70 +23,18 @@ public class CalendarRepository {
 
     JdbcRepository jdbcRepository;
 
-    public CalendarRepository(JdbcRepository jdbcRepository) {
-        this.jdbcRepository = jdbcRepository;
-    }
-
-    public CalendarRepository() {
-        this.jdbcRepository = new OldRepository();
-    }
-
     public void addCalender(UserCalendarRequest calendar) throws ClassNotFoundException, SQLException {
-        Connection c = jdbcRepository.makeConnection();
-        PreparedStatement ps = c.prepareStatement(
-                "insert into calendar(id, userName, date, details) values (?,?,?,?)"
-        );
-
-        ps.setLong(1, calendar.getUser().getId());
-        ps.setString(2, calendar.getCalendar().getUserName());
-        ps.setString(3, calendar.getCalendar().getDate());
-        ps.setString(4, calendar.getCalendar().getDetails());
-        ps.executeUpdate();
-        ps.close();
-        c.close();
+        CalendarStatement<UserCalendarRequest,UserCalendarRequest> calendarStatement;
+        calendarStatement = new AddStatement(jdbcRepository);
+        calendarStatement.calendarStatement(calendar);
     }
 
     public List<Calendar> getCalendar(Long id, String date) throws ClassNotFoundException, SQLException {
-        List<Calendar> calendarList = new ArrayList<>();  // 결과를 담을 리스트
-
-        Connection c = jdbcRepository.makeConnection();
-        String sqlQuery = ""; // 쿼리가 문자열로 작성되니까 객체에 담아서 파라미터로 전달하도록함
-
-        if (id != null && date != null) {// 둘모두 값을 가지고있을때
-            sqlQuery = "SELECT  * FROM calendar WHERE date = ? AND id = ? ";
-        } else if (date == null) { //날짜에 해당하는 값이 없을때
-            sqlQuery = "SELECT  * FROM calendar WHERE id = ?";
-        } else if (id == null) { // 아이디에 해당하는 값이 없을때
-            sqlQuery = "SELECT  * FROM calendar WHERE date = ?";
-        } else if (date == null && id == null) {//둘다 없으면 찾을수 없으니까 예외던지기
-            throw new SQLException();
-        }
-
-        PreparedStatement ps = c.prepareStatement(sqlQuery);
-        int index = 1;
-        if (date != null) {//날짜가 있다면 1번에 들어가고 증가시키기
-            ps.setString(index++, date);
-        }
-        if (id != null) {//만약날짜가 없었다면 그대로1 날짜가있다면2가되서 정상작동
-            ps.setLong(index, id);
-        }
-
-        ResultSet rs = ps.executeQuery();
-
-        // ResultSet으로 데이터 처리하여 List에 담기
-        while (rs.next()) {
-            Calendar calendar = new Calendar();
-            calendar.setUserName(rs.getString("userName"));
-            calendar.setDate(rs.getString("date"));
-            calendar.setDetails(rs.getString("details"));
-            calendarList.add(calendar);  // 리스트에 추가
-        }
-
-        rs.close();
-        ps.close();
-        c.close();
-
-        return calendarList;  // 전체 리스트 반환
+        AllRounder allRounder = new AllRounder();
+        allRounder.setId(id);
+        allRounder.setDate(date);
+        CalendarStatement<AllRounder,List<Calendar>> calendarStatement = new GetStatement(jdbcRepository);
+        return calendarStatement.calendarStatement(allRounder);
     }
 
     public Calendar getPortionCalendar(User user) throws ClassNotFoundException, SQLException {

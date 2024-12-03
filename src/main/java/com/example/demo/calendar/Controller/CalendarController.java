@@ -1,8 +1,8 @@
 package com.example.demo.calendar.Controller;
 
-import com.example.demo.calendar.entity.Calendar;
-import com.example.demo.calendar.entity.User;
-import com.example.demo.calendar.entity.UserCalendarRequest;
+import com.example.demo.calendar.DTO.Calendar;
+import com.example.demo.calendar.DTO.User;
+import com.example.demo.calendar.DTO.UserCalendarRequest;
 import com.example.demo.calendar.repository.CalendarRepository;
 import com.example.demo.calendar.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,6 @@ public class CalendarController {
 
     @GetMapping("/getAll/{date}/{id}")
     public List<Calendar> getCalender(@PathVariable Long id, @PathVariable("date") String date) throws ClassNotFoundException, SQLException {
-
         return calendarDao.getCalendar(id, date);
     }
 
@@ -47,8 +46,7 @@ public class CalendarController {
     @PutMapping("/changeDetails/{detail}")
     public Calendar changeDetails(@RequestBody UserCalendarRequest userCalendar, @PathVariable("detail") String detail) throws SQLException, ClassNotFoundException {
         userDao.login(userCalendar.getUser());
-        CalendarRepository calendarDao = new CalendarRepository();
-        return calendarDao.changeDetails(userCalendar.getCalendar(), detail);
+         return calendarDao.changeDetails(userCalendar.getCalendar(), detail);
     }
 
     @DeleteMapping("/delete/{details}")

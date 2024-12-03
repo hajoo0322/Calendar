@@ -1,4 +1,4 @@
-package com.example.demo.calendar.entity;
+package com.example.demo.calendar.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
