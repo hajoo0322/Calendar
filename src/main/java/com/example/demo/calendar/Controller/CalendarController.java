@@ -43,7 +43,7 @@ public class CalendarController {
         // 캘린더가 성공적으로 등록되엇다는걸 뭘로 반환해줄까...
     }
 
-    @PutMapping("/changeDetails/{detail}")
+    @PatchMapping("/changeDetails/{detail}")
     public Calendar changeDetails(@RequestBody UserCalendarRequest userCalendar, @PathVariable("detail") String detail) throws SQLException, ClassNotFoundException {
         userDao.login(userCalendar.getUser());
          return calendarDao.changeDetails(userCalendar.getCalendar(), detail);

@@ -5,9 +5,7 @@ import com.example.demo.calendar.DTO.Calendar;
 import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.DTO.UserCalendarRequest;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
-import com.example.demo.calendar.repository.execution.AddStatement;
-import com.example.demo.calendar.repository.execution.CalendarStatement;
-import com.example.demo.calendar.repository.execution.GetStatement;
+import com.example.demo.calendar.repository.execution.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,56 +36,17 @@ public class CalendarRepository {
     }
 
     public Calendar getPortionCalendar(User user) throws ClassNotFoundException, SQLException {
-        try (Connection c = jdbcRepository.makeConnection();
-             PreparedStatement ps = c.prepareStatement(
-                     "SELECT  * FROM calendar WHERE id = ? LIMIT 1"
-             )) {                    //1개만 조회하도록 변경
-            ps.setLong(1, user.getId());
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    Calendar calendar = new Calendar();
-                    calendar.setUserName(rs.getString("userName"));
-                    calendar.setDate(rs.getString("date"));
-                    calendar.setDetails(rs.getString("details"));
-                    return calendar;
-                } else {
-                    throw new SQLException();
-                }
-            } catch (SQLException e) {
-                throw new SQLException("데이터베이스 연결실패");
-            }
-        } catch (ClassNotFoundException e) {
-            throw new ClassNotFoundException("데이터베이스 드라이버를 찾을수 없습니다.");
-        }
+        CalendarStatement<User,Calendar> calendarStatement =new GetPortionStatement(jdbcRepository);
+        return calendarStatement.calendarStatement(user);
     }
 
     public Calendar changeDetails(Calendar calendar,String detail) throws ClassNotFoundException, SQLException {
-        Connection c = jdbcRepository.makeConnection();
+        AllRounder allRounder = new AllRounder();
+        allRounder.setCalendar(calendar);
+        allRounder.setDetails(detail);
+        CalendarStatement<AllRounder, Calendar> calendarStatement = new ChangeStatement(jdbcRepository);
+        return calendarStatement.calendarStatement(allRounder);
 
-        PreparedStatement ps = c.prepareStatement(
-                "UPDATE calendar SET details = ? WHERE details =?"
-        );
-        ps.setString(1,detail);
-        ps.setString(2,calendar.getDetails());
-        ps.executeUpdate();
-
-        PreparedStatement ps2 = c.prepareStatement(
-                "insert into calendar(date_modified) values (?)"
-        );
-        LocalDate now = LocalDate.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String format = now.format(dateTimeFormatter);
-        ps2.setString(1,format);
-        ps2.executeUpdate();
-
-        calendar.setDetails(detail);
-
-        ps2.close();
-        ps.close();
-        c.close();
-
-        return calendar;
     }
 
     public void deleteCalendar(String detail) throws SQLException, ClassNotFoundException {

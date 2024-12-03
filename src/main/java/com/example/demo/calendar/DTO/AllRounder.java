@@ -9,4 +9,7 @@ public class AllRounder {
     Long id;
     String date;
     String details;
+    Calendar calendar;
+    User user;
+    User userNameChange;
 }

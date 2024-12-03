@@ -27,7 +27,7 @@ public class UserController {
     return user;
     }
 
-    @PutMapping("/changeUserName")
+    @PatchMapping("/changeUserName")
     public User changeUserName(@RequestBody UserRequest user) throws SQLException, ClassNotFoundException {
         return userDao.userNameChanger(user);
     }
