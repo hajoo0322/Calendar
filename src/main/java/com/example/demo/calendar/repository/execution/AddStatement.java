@@ -18,19 +18,21 @@ public class AddStatement implements CalendarStatement<AllRounder,AllRounder> {
 
     @Override
     public AllRounder calendarStatement(AllRounder allRounder) throws SQLException, ClassNotFoundException {
-        Connection c = jdbcRepository.makeConnection();
-        PreparedStatement ps = c.prepareStatement(
-                "insert into calendar(id, userName, date, details) values (?,?,?,?)"
-        );
+        try (Connection c = jdbcRepository.makeConnection();
+             PreparedStatement ps = c.prepareStatement(
+                     "insert into calendar(id, userName, date, details) values (?,?,?,?)"
+             )) {
 
-        ps.setLong(1, allRounder.getUser().getId());
-        ps.setString(2, allRounder.getCalendar().getUserName());
-        ps.setString(3, allRounder.getCalendar().getDate());
-        ps.setString(4, allRounder.getCalendar().getDetails());
-        ps.executeUpdate();
-        ps.close();
-        c.close();
 
-        return allRounder;
+            ps.setLong(1, allRounder.getUser().getId());
+            ps.setString(2, allRounder.getCalendar().getUserName());
+            ps.setString(3, allRounder.getCalendar().getDate());
+            ps.setString(4, allRounder.getCalendar().getDetails());
+            return allRounder;
+        } catch (SQLException e) {
+            throw new SQLException("데이터 베이스 연결 실패" + e.getMessage());
+        }catch (RuntimeException e) {
+            throw new RuntimeException("데이터베이스 드라이버 혹은 쿼리에 문제발생" + e.getMessage());
+        }
     }
 }

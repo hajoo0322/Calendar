@@ -19,30 +19,32 @@ public class ChangeStatement implements CalendarStatement<AllRounder, Calendar>{
 
     @Override
     public Calendar calendarStatement(AllRounder allRounder) throws SQLException, ClassNotFoundException {
-        Connection c = jdbcRepository.makeConnection();
+        try (Connection c = jdbcRepository.makeConnection();
 
-        PreparedStatement ps = c.prepareStatement(
-                "UPDATE calendar SET details = ? WHERE details =?"
-        );
-        ps.setString(1,allRounder.getDetails());
-        ps.setString(2,allRounder.getCalendar().getDetails());
-        ps.executeUpdate();
+             PreparedStatement ps = c.prepareStatement(
+                     "UPDATE calendar SET details = ? WHERE details =?"
+             )) {
+            ps.setString(1, allRounder.getDetails());
+            ps.setString(2, allRounder.getCalendar().getDetails());
+            ps.executeUpdate();
 
-        PreparedStatement ps2 = c.prepareStatement(
-                "insert into calendar(date_modified) values (?)"
-        );
-        LocalDate now = LocalDate.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String format = now.format(dateTimeFormatter);
-        ps2.setString(1,format);
-        ps2.executeUpdate();
+            try (PreparedStatement ps2 = c.prepareStatement(
+                    "insert into calendar(date_modified) values (?)"
+            )) {
+                LocalDate now = LocalDate.now();
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String format = now.format(dateTimeFormatter);
+                ps2.setString(1, format);
+                ps2.executeUpdate();
 
-        allRounder.getCalendar().setDetails(allRounder.getDetails());
+                allRounder.getCalendar().setDetails(allRounder.getDetails());
 
-        ps2.close();
-        ps.close();
-        c.close();
-
-        return allRounder.getCalendar();
+                return allRounder.getCalendar();
+            }
+        } catch (SQLException e) {
+            throw new SQLException("데이터 베이스 연결 실패" + e.getMessage());
+        } catch (RuntimeException e) {
+            throw new RuntimeException("데이터베이스 드라이버 혹은 쿼리에 문제발생");
+        }
     }
 }
