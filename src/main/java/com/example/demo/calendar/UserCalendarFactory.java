@@ -24,5 +24,4 @@ public class UserCalendarFactory {
     public JdbcRepository connectionmaker() {
         return new OldRepository();
     }
-
 }

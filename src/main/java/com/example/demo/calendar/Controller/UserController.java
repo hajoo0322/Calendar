@@ -16,7 +16,7 @@ public class UserController {
         this.userDao = userDao;
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public User login(@RequestBody User user) throws SQLException, ClassNotFoundException {
         return userDao.login(user);
     }

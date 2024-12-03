@@ -41,19 +41,19 @@ public class CalendarRepository {
         c.close();
     }
 
-    public List<Calendar> getCalendar(User user, String date) throws ClassNotFoundException, SQLException {
+    public List<Calendar> getCalendar(Long id, String date) throws ClassNotFoundException, SQLException {
         List<Calendar> calendarList = new ArrayList<>();  // 결과를 담을 리스트
 
         Connection c = jdbcRepository.makeConnection();
         String sqlQuery = ""; // 쿼리가 문자열로 작성되니까 객체에 담아서 파라미터로 전달하도록함
 
-        if (user.getId() != null && date != null) {// 둘모두 값을 가지고있을때
+        if (id != null && date != null) {// 둘모두 값을 가지고있을때
             sqlQuery = "SELECT  * FROM calendar WHERE date = ? AND id = ? ";
         } else if (date == null) { //날짜에 해당하는 값이 없을때
             sqlQuery = "SELECT  * FROM calendar WHERE id = ?";
-        } else if (user.getId() == null) { // 아이디에 해당하는 값이 없을때
+        } else if (id == null) { // 아이디에 해당하는 값이 없을때
             sqlQuery = "SELECT  * FROM calendar WHERE date = ?";
-        } else if (date == null && user.getId() == null) {//둘다 없으면 찾을수 없으니까 예외던지기
+        } else if (date == null && id == null) {//둘다 없으면 찾을수 없으니까 예외던지기
             throw new SQLException();
         }
 
@@ -62,8 +62,8 @@ public class CalendarRepository {
         if (date != null) {//날짜가 있다면 1번에 들어가고 증가시키기
             ps.setString(index++, date);
         }
-        if (user.getId() != null) {//만약날짜가 없었다면 그대로1 날짜가있다면2가되서 정상작동
-            ps.setLong(index, user.getId());
+        if (id != null) {//만약날짜가 없었다면 그대로1 날짜가있다면2가되서 정상작동
+            ps.setLong(index, id);
         }
 
         ResultSet rs = ps.executeQuery();
@@ -139,13 +139,13 @@ public class CalendarRepository {
         return calendar;
     }
 
-    public void deleteCalendar(Calendar calendar) throws SQLException, ClassNotFoundException {
+    public void deleteCalendar(String detail) throws SQLException, ClassNotFoundException {
         Connection c = jdbcRepository.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "DELETE FROM calendar WHERE details = ?"
         );
-        ps.setString(1, calendar.getDetails());
+        ps.setString(1, detail);
         ps.executeUpdate();
 
         ps.close();

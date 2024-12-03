@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 import java.util.List;
 
-//api/schedule/
 @RestController
 @RequestMapping("/api/schedule")
 public class CalendarController {
@@ -22,10 +21,10 @@ public class CalendarController {
         this.userDao = userDao;
     }
 
-    @GetMapping("/getAll/{date}")
-    public List<Calendar> getCalender(@RequestBody User user, @PathVariable("date") String date) throws ClassNotFoundException, SQLException {
+    @GetMapping("/getAll/{date}/{id}")
+    public List<Calendar> getCalender(@PathVariable Long id, @PathVariable("date") String date) throws ClassNotFoundException, SQLException {
 
-        return calendarDao.getCalendar(user, date);
+        return calendarDao.getCalendar(id, date);
     }
 
     @GetMapping("/getPortion")
@@ -52,10 +51,12 @@ public class CalendarController {
         return calendarDao.changeDetails(userCalendar.getCalendar(), detail);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteCalendar(@RequestBody UserCalendarRequest userCalendar) throws SQLException, ClassNotFoundException {
-        userDao.login(userCalendar.getUser());
-        CalendarRepository calendarDao = new CalendarRepository();
-        calendarDao.deleteCalendar(userCalendar.getCalendar());
+    @DeleteMapping("/delete/{details}")
+    public void deleteCalendar(@RequestHeader("name") String name,@RequestHeader("password") String password, @PathVariable("details") String detail) throws SQLException, ClassNotFoundException {
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+        userDao.login(user);
+        calendarDao.deleteCalendar(detail);
     }
 }
