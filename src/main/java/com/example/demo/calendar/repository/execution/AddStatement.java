@@ -32,7 +32,7 @@ public class AddStatement implements CalendarStatement<AllRounder,AllRounder> {
         } catch (SQLException e) {
             throw new SQLException("데이터 베이스 연결 실패" + e.getMessage());
         }catch (RuntimeException e) {
-            throw new RuntimeException("데이터베이스 드라이버 혹은 쿼리에 문제발생" + e.getMessage());
+            throw new RuntimeException("데이터베이스 드라이버 문제발생" + e.getMessage());
         }
     }
 }
