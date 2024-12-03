@@ -2,7 +2,6 @@ package com.example.demo.calendar.repository;
 
 import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.DTO.User;
-import com.example.demo.calendar.DTO.UserRequest;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
 
 import java.sql.*;

@@ -1,7 +1,6 @@
 package com.example.demo.calendar.repository.execution;
 
 import com.example.demo.calendar.DTO.AllRounder;
-import com.example.demo.calendar.DTO.UserCalendarRequest;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @Repository
-public class AddStatement implements CalendarStatement<AllRounder,UserCalendarRequest> {
+public class AddStatement implements CalendarStatement<AllRounder,AllRounder> {
     JdbcRepository jdbcRepository;
 
     public AddStatement(JdbcRepository jdbcRepository) {

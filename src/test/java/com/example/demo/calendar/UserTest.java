@@ -1,9 +1,9 @@
 package com.example.demo.calendar;
 
 
+import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.DTO.Calendar;
 import com.example.demo.calendar.DTO.User;
-import com.example.demo.calendar.DTO.UserCalendarRequest;
 import com.example.demo.calendar.repository.dbconnecter.OldRepository;
 import com.example.demo.calendar.repository.CalendarRepository;
 import com.example.demo.calendar.repository.UserRepository;
@@ -44,11 +44,11 @@ public class UserTest {
         Calendar calendar = new Calendar();
         calendar.setUserName(user.getName());
         calendar.setDetails("18시에 밥을먹는다.");
-        UserCalendarRequest userCalendarRequest = new UserCalendarRequest();
-        userCalendarRequest.setUser(user);
-        userCalendarRequest.setCalendar(calendar);
+        AllRounder allRounder = new AllRounder();
+        allRounder.setUser(user);
+        allRounder.setCalendar(calendar);
         CalendarRepository calendarDao = new CalendarRepository();
-        calendarDao.addCalender(userCalendarRequest);
+        calendarDao.addCalender(allRounder);
     }
 
     @Test

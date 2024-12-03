@@ -3,7 +3,6 @@ package com.example.demo.calendar.repository;
 import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.DTO.Calendar;
 import com.example.demo.calendar.DTO.User;
-import com.example.demo.calendar.DTO.UserCalendarRequest;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
 import com.example.demo.calendar.repository.execution.*;
 
@@ -22,7 +21,7 @@ public class CalendarRepository {
     JdbcRepository jdbcRepository;
 
     public void addCalender(AllRounder allRounder) throws ClassNotFoundException, SQLException {
-        CalendarStatement<AllRounder,UserCalendarRequest> calendarStatement;
+        CalendarStatement<AllRounder,AllRounder> calendarStatement;
         calendarStatement = new AddStatement(jdbcRepository);
         calendarStatement.calendarStatement(allRounder);
     }
