@@ -5,6 +5,8 @@ import com.example.demo.calendar.DTO.Calendar;
 import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.repository.CalendarRepository;
 import com.example.demo.calendar.repository.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -38,15 +40,16 @@ public class CalendarController {
     }
 
     @PostMapping("/addCalendar")
-    public void setCalendar(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException {
-        calendarDao.addCalender(allRounder);
-        // 캘린더가 성공적으로 등록되엇다는걸 뭘로 반환해줄까...
+    public ResponseEntity<Calendar> setCalendar(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException {
+        Calendar calendar = calendarDao.addCalender(allRounder);
+
+        return new ResponseEntity<>(calendar, HttpStatus.OK);
     }
 
-    @PatchMapping("/changeDetails/{detail}")
-    public Calendar changeDetails(@RequestBody AllRounder allRounder, @PathVariable("detail") String detail) throws SQLException, ClassNotFoundException {
+    @PatchMapping("/changeDetails")
+    public ResponseEntity<Calendar> changeDetails(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException {
         userDao.login(allRounder.getUser());
-         return calendarDao.changeDetails(allRounder.getCalendar(), detail);
+         return new ResponseEntity<>(calendarDao.changeDetails(allRounder),HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{details}")

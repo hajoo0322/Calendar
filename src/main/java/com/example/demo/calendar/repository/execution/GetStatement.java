@@ -18,7 +18,6 @@ public class GetStatement implements CalendarStatement<AllRounder,List<Calendar>
         this.jdbcRepository = jdbcRepository;
     }
 
-
     @Override
     public List<Calendar> calendarStatement(AllRounder e) throws SQLException, ClassNotFoundException {
         List<Calendar> calendarList = new ArrayList<>();  // 결과를 담을 리스트

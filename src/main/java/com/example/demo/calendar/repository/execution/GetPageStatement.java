@@ -20,6 +20,7 @@ public class GetPageStatement implements CalendarStatement<AllRounder, List<Cale
 
     @Override
     public List<Calendar> calendarStatement(AllRounder allRounder) throws SQLException, ClassNotFoundException {
+        int wherePage = (allRounder.getPage() - 1) * allRounder.getPageSize();
         Connection c = jdbcRepository.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
@@ -27,7 +28,7 @@ public class GetPageStatement implements CalendarStatement<AllRounder, List<Cale
         );
 
         ps.setInt(1, allRounder.getPageSize());
-        ps.setInt(2, (allRounder.getPage()-1)*allRounder.getPageSize());
+        ps.setInt(2, wherePage);
         ResultSet rs = ps.executeQuery();
         List<Calendar> calendarList = new ArrayList<>();
         while (rs.next()) {

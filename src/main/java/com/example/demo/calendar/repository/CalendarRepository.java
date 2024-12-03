@@ -5,27 +5,19 @@ import com.example.demo.calendar.DTO.Calendar;
 import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
 import com.example.demo.calendar.repository.execution.*;
+import lombok.extern.slf4j.Slf4j;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
-
+@Slf4j
 public class CalendarRepository {
-
     JdbcRepository jdbcRepository;
 
-    public void addCalender(AllRounder allRounder) throws ClassNotFoundException, SQLException {
+    public Calendar addCalender(AllRounder allRounder) throws ClassNotFoundException, SQLException {
         CalendarStatement<AllRounder,AllRounder> calendarStatement;
         calendarStatement = new AddStatement(jdbcRepository);
-
-
-        calendarStatement.calendarStatement(allRounder);
+        return calendarStatement.calendarStatement(allRounder).getCalendar();
     }
 
     public List<Calendar> getCalendar(Long id, String date) throws ClassNotFoundException, SQLException {
@@ -38,13 +30,15 @@ public class CalendarRepository {
 
     public Calendar getPortionCalendar(User user) throws ClassNotFoundException, SQLException {
         CalendarStatement<User,Calendar> calendarStatement =new GetPortionStatement(jdbcRepository);
-        return calendarStatement.calendarStatement(user);
+        try {
+            return calendarStatement.calendarStatement(user);
+        } catch (RuntimeException e) {
+            log.error("오류 발생"+user.getId()+e.getMessage());
+            return null;
+        }
     }
 
-    public Calendar changeDetails(Calendar calendar,String detail) throws ClassNotFoundException, SQLException {
-        AllRounder allRounder = new AllRounder();
-        allRounder.setCalendar(calendar);
-        allRounder.setDetails(detail);
+    public Calendar changeDetails(AllRounder allRounder) throws ClassNotFoundException, SQLException {
         CalendarStatement<AllRounder, Calendar> calendarStatement = new ChangeStatement(jdbcRepository);
         return calendarStatement.calendarStatement(allRounder);
 
