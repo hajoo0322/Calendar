@@ -28,7 +28,7 @@ public class CalendarController {
         return new ResponseEntity<>(calendarDao.getCalendar(id, date),HttpStatus.OK);
     }
 
-    @GetMapping("/Portion")
+    @GetMapping("/portion")
     public ResponseEntity<Calendar> getPortionCalender(@RequestBody User user) throws SQLException, ClassNotFoundException {
         return new ResponseEntity<>(calendarDao.getPortionCalendar(user),HttpStatus.OK);
     }
