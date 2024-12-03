@@ -7,6 +7,7 @@ import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.repository.dbconnecter.OldRepository;
 import com.example.demo.calendar.repository.CalendarRepository;
 import com.example.demo.calendar.repository.UserRepository;
+import com.example.demo.calendar.exception.IdException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +37,7 @@ public class UserTest {
     }
 
     @Test
-    public void addCalendar() throws SQLException, ClassNotFoundException {
+    public void addCalendar() throws SQLException, ClassNotFoundException, IdException {
         User user = new User();
         user.setId(1L);
         user.setName("한씨");
@@ -52,7 +53,7 @@ public class UserTest {
     }
 
     @Test
-    public void getCalendar() throws SQLException, ClassNotFoundException {
+    public void getCalendar() throws SQLException, ClassNotFoundException, IdException {
         User user = new User();
         user.setId(1L);
         CalendarRepository calendarDao = new CalendarRepository();
@@ -62,7 +63,7 @@ public class UserTest {
     }
 
     @Test
-    public void pageTest() throws SQLException, ClassNotFoundException {
+    public void pageTest() throws SQLException, ClassNotFoundException, IdException {
         CalendarRepository calendarDao = new CalendarRepository();
         List<Calendar> pageCalendar = calendarDao.getPageCalendar(1, 10);
 

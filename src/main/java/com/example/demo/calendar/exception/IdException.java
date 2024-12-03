@@ -1,4 +1,4 @@
-package com.example.demo.calendar.repository.exception;
+package com.example.demo.calendar.exception;
 
 public class IdException extends Exception {
 

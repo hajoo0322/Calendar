@@ -1,6 +1,6 @@
 package com.example.demo.calendar.repository.execution;
 
-import com.example.demo.calendar.repository.exception.IdException;
+import com.example.demo.calendar.exception.IdException;
 
 import java.sql.SQLException;
 

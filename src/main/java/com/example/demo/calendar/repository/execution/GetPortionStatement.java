@@ -3,7 +3,7 @@ package com.example.demo.calendar.repository.execution;
 import com.example.demo.calendar.DTO.Calendar;
 import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
-import com.example.demo.calendar.repository.exception.IdException;
+import com.example.demo.calendar.exception.IdException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
