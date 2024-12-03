@@ -3,6 +3,8 @@ package com.example.demo.calendar.Controller;
 import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.repository.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -17,18 +19,18 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user) throws SQLException, ClassNotFoundException {
-        return userDao.login(user);
+    public ResponseEntity<User> login(@RequestBody User user) throws SQLException, ClassNotFoundException {
+        return new ResponseEntity<>(userDao.login(user), HttpStatus.OK);
     }
 
     @PostMapping("/addUser")
-    public User addUser(@RequestBody User user) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<User> addUser(@RequestBody User user) throws SQLException, ClassNotFoundException {
     userDao.add(user);
-    return user;
+    return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
     @PatchMapping("/changeUserName")
-    public User changeUserName(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException {
-        return userDao.userNameChanger(allRounder);
+    public ResponseEntity<User> changeUserName(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException {
+        return new ResponseEntity<>(userDao.userNameChanger(allRounder),HttpStatus.OK);
     }
 }
