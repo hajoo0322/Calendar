@@ -24,18 +24,18 @@ public class CalendarController {
     }
 
     @GetMapping("/getAll/{date}/{id}")
-    public List<Calendar> getCalender(@PathVariable Long id, @PathVariable("date") String date) throws ClassNotFoundException, SQLException {
-        return calendarDao.getCalendar(id, date);
+    public ResponseEntity<List<Calendar>> getCalender(@PathVariable Long id, @PathVariable("date") String date) throws ClassNotFoundException, SQLException {
+        return new ResponseEntity<>(calendarDao.getCalendar(id, date),HttpStatus.OK);
     }
 
     @GetMapping("/getPortion")
-    public Calendar getPortionCalender(@RequestBody User user) throws SQLException, ClassNotFoundException {
-        return calendarDao.getPortionCalendar(user);
+    public ResponseEntity<Calendar> getPortionCalender(@RequestBody User user) throws SQLException, ClassNotFoundException {
+        return new ResponseEntity<>(calendarDao.getPortionCalendar(user),HttpStatus.OK);
     }
 
     @GetMapping("/pageGet")
-    public List<Calendar> getPageCalendar(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) throws SQLException, ClassNotFoundException {
-        return calendarDao.getPageCalendar(page, pageSize);
+    public ResponseEntity<List<Calendar>> getPageCalendar(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) throws SQLException, ClassNotFoundException {
+        return new ResponseEntity<>(calendarDao.getPageCalendar(page, pageSize),HttpStatus.OK);
 
     }
 
@@ -52,11 +52,12 @@ public class CalendarController {
     }
 
     @DeleteMapping("/delete/{details}")
-    public void deleteCalendar(@RequestHeader("name") String name,@RequestHeader("password") String password, @PathVariable("details") String detail) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<?> deleteCalendar(@RequestHeader("name") String name,@RequestHeader("password") String password, @PathVariable("details") String detail) throws SQLException, ClassNotFoundException {
         User user = new User();
         user.setName(name);
         user.setPassword(password);
         userDao.login(user);
         calendarDao.deleteCalendar(detail);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
