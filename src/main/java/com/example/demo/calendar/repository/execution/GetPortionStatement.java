@@ -3,6 +3,7 @@ package com.example.demo.calendar.repository.execution;
 import com.example.demo.calendar.DTO.Calendar;
 import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
+import com.example.demo.calendar.repository.exception.IdException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +18,7 @@ public class GetPortionStatement implements CalendarStatement<User, Calendar>{
     }
 
     @Override
-    public Calendar calendarStatement(User user) throws SQLException, ClassNotFoundException {
+    public Calendar calendarStatement(User user) throws SQLException, ClassNotFoundException, IdException {
         try (Connection c = jdbcRepository.makeConnection();
              PreparedStatement ps = c.prepareStatement(
                      "SELECT  * FROM calendar WHERE id = ? LIMIT 1"
@@ -32,13 +33,13 @@ public class GetPortionStatement implements CalendarStatement<User, Calendar>{
                     calendar.setDetails(rs.getString("details"));
                     return calendar;
                 } else {
-                    throw new SQLException("유저를 찾을수 없습니다.");
+                    throw new IdException("유저를 찾을수 없습니다.");
                 }
-            } catch (SQLException e) {
-                throw new SQLException("데이터베이스 연결실패"+e.getMessage());
             }
+        } catch (SQLException e) {
+            throw new SQLException("데이터 베이스 연결 실패" + e.getMessage());
         } catch (RuntimeException e) {
-            throw new RuntimeException("데이터베이스 드라이버 혹은 쿼리에 문제발생"+e.getMessage());
+            throw new RuntimeException("데이터베이스 드라이버 혹은 쿼리에 문제발생" + e.getMessage());
         }
     }
 }

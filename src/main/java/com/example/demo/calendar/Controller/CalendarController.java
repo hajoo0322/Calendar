@@ -42,7 +42,6 @@ public class CalendarController {
     @PostMapping("/addCalendar")
     public ResponseEntity<Calendar> setCalendar(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException {
         Calendar calendar = calendarDao.addCalender(allRounder);
-
         return new ResponseEntity<>(calendar, HttpStatus.OK);
     }
 
