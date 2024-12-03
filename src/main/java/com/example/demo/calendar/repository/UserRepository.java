@@ -1,5 +1,6 @@
 package com.example.demo.calendar.repository;
 
+import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.DTO.UserRequest;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
@@ -51,23 +52,23 @@ public class UserRepository {
         }
     }
 
-    public User userNameChanger(UserRequest user) throws ClassNotFoundException, SQLException {
+    public User userNameChanger(AllRounder allRounder) throws ClassNotFoundException, SQLException {
         Connection c = jdbcRepository.makeConnection();
         PreparedStatement ps = c.prepareStatement(
                 "SELECT * FROM users WHERE name = ?"
         );
-        ps.setString(1,user.getUser().getName());
+        ps.setString(1,allRounder.getUser().getName());
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            if (rs.getString("password").equals(user.getUser().getPassword())) {
+            if (rs.getString("password").equals(allRounder.getUser().getPassword())) {
                 PreparedStatement ps2 = c.prepareStatement(
                         "UPDATE users SET name = ? WHERE name = ?"
                 );
-                ps2.setString(1, user.getChangeUserName().getName());
-                ps2.setString(2, user.getUser().getName());
+                ps2.setString(1, allRounder.getUserNameChange().getName());
+                ps2.setString(2, allRounder.getUser().getName());
                 ps2.executeUpdate();
-                user.getUser().setName(user.getChangeUserName().getName());
-                return user.getUser();
+                allRounder.getUser().setName(allRounder.getUserNameChange().getName());
+                return allRounder.getUser();
             } else {
                 throw new SQLException("비밀번호가 잘못됨");
             }

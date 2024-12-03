@@ -1,5 +1,6 @@
 package com.example.demo.calendar.repository.execution;
 
+import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.DTO.UserCalendarRequest;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
 import org.springframework.stereotype.Repository;
@@ -9,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @Repository
-public class AddStatement implements CalendarStatement<UserCalendarRequest,UserCalendarRequest> {
+public class AddStatement implements CalendarStatement<AllRounder,UserCalendarRequest> {
     JdbcRepository jdbcRepository;
 
     public AddStatement(JdbcRepository jdbcRepository) {
@@ -17,20 +18,20 @@ public class AddStatement implements CalendarStatement<UserCalendarRequest,UserC
     }
 
     @Override
-    public UserCalendarRequest calendarStatement(UserCalendarRequest calendar) throws SQLException, ClassNotFoundException {
+    public AllRounder calendarStatement(AllRounder allRounder) throws SQLException, ClassNotFoundException {
         Connection c = jdbcRepository.makeConnection();
         PreparedStatement ps = c.prepareStatement(
                 "insert into calendar(id, userName, date, details) values (?,?,?,?)"
         );
 
-        ps.setLong(1, calendar.getUser().getId());
-        ps.setString(2, calendar.getCalendar().getUserName());
-        ps.setString(3, calendar.getCalendar().getDate());
-        ps.setString(4, calendar.getCalendar().getDetails());
+        ps.setLong(1, allRounder.getUser().getId());
+        ps.setString(2, allRounder.getCalendar().getUserName());
+        ps.setString(3, allRounder.getCalendar().getDate());
+        ps.setString(4, allRounder.getCalendar().getDetails());
         ps.executeUpdate();
         ps.close();
         c.close();
 
-        return calendar;
+        return allRounder;
     }
 }

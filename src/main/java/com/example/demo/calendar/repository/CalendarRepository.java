@@ -21,10 +21,10 @@ public class CalendarRepository {
 
     JdbcRepository jdbcRepository;
 
-    public void addCalender(UserCalendarRequest calendar) throws ClassNotFoundException, SQLException {
-        CalendarStatement<UserCalendarRequest,UserCalendarRequest> calendarStatement;
+    public void addCalender(AllRounder allRounder) throws ClassNotFoundException, SQLException {
+        CalendarStatement<AllRounder,UserCalendarRequest> calendarStatement;
         calendarStatement = new AddStatement(jdbcRepository);
-        calendarStatement.calendarStatement(calendar);
+        calendarStatement.calendarStatement(allRounder);
     }
 
     public List<Calendar> getCalendar(Long id, String date) throws ClassNotFoundException, SQLException {

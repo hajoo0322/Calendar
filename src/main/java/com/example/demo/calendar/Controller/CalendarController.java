@@ -1,5 +1,6 @@
 package com.example.demo.calendar.Controller;
 
+import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.DTO.Calendar;
 import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.DTO.UserCalendarRequest;
@@ -38,15 +39,15 @@ public class CalendarController {
     }
 
     @PostMapping("/addCalendar")
-    public void setCalendar(@RequestBody UserCalendarRequest calendar) throws SQLException, ClassNotFoundException {
-        calendarDao.addCalender(calendar);
+    public void setCalendar(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException {
+        calendarDao.addCalender(allRounder);
         // 캘린더가 성공적으로 등록되엇다는걸 뭘로 반환해줄까...
     }
 
     @PatchMapping("/changeDetails/{detail}")
-    public Calendar changeDetails(@RequestBody UserCalendarRequest userCalendar, @PathVariable("detail") String detail) throws SQLException, ClassNotFoundException {
-        userDao.login(userCalendar.getUser());
-         return calendarDao.changeDetails(userCalendar.getCalendar(), detail);
+    public Calendar changeDetails(@RequestBody AllRounder allRounder, @PathVariable("detail") String detail) throws SQLException, ClassNotFoundException {
+        userDao.login(allRounder.getUser());
+         return calendarDao.changeDetails(allRounder.getCalendar(), detail);
     }
 
     @DeleteMapping("/delete/{details}")

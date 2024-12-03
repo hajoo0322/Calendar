@@ -1,5 +1,6 @@
 package com.example.demo.calendar.Controller;
 
+import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.repository.UserRepository;
 import com.example.demo.calendar.DTO.UserRequest;
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @PatchMapping("/changeUserName")
-    public User changeUserName(@RequestBody UserRequest user) throws SQLException, ClassNotFoundException {
-        return userDao.userNameChanger(user);
+    public User changeUserName(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException {
+        return userDao.userNameChanger(allRounder);
     }
 }
