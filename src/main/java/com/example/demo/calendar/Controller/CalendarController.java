@@ -23,35 +23,35 @@ public class CalendarController {
         this.userDao = userDao;
     }
 
-    @GetMapping("/getAll/{date}/{id}")
+    @GetMapping("/all/{date}/{id}")
     public ResponseEntity<List<Calendar>> getCalender(@PathVariable Long id, @PathVariable("date") String date) throws ClassNotFoundException, SQLException {
         return new ResponseEntity<>(calendarDao.getCalendar(id, date),HttpStatus.OK);
     }
 
-    @GetMapping("/getPortion")
+    @GetMapping("/Portion")
     public ResponseEntity<Calendar> getPortionCalender(@RequestBody User user) throws SQLException, ClassNotFoundException {
         return new ResponseEntity<>(calendarDao.getPortionCalendar(user),HttpStatus.OK);
     }
 
-    @GetMapping("/pageGet")
+    @GetMapping("/page-nation")
     public ResponseEntity<List<Calendar>> getPageCalendar(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) throws SQLException, ClassNotFoundException {
         return new ResponseEntity<>(calendarDao.getPageCalendar(page, pageSize),HttpStatus.OK);
 
     }
 
-    @PostMapping("/addCalendar")
+    @PostMapping
     public ResponseEntity<Calendar> setCalendar(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException {
         Calendar calendar = calendarDao.addCalender(allRounder);
         return new ResponseEntity<>(calendar, HttpStatus.OK);
     }
 
-    @PatchMapping("/changeDetails")
+    @PatchMapping
     public ResponseEntity<Calendar> changeDetails(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException {
         userDao.login(allRounder.getUser());
          return new ResponseEntity<>(calendarDao.changeDetails(allRounder),HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{details}")
+    @DeleteMapping("/{details}")
     public ResponseEntity<?> deleteCalendar(@RequestHeader("name") String name,@RequestHeader("password") String password, @PathVariable("details") String detail) throws SQLException, ClassNotFoundException {
         User user = new User();
         user.setName(name);

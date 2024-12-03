@@ -23,13 +23,13 @@ public class UserController {
         return new ResponseEntity<>(userDao.login(user), HttpStatus.OK);
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/user")
     public ResponseEntity<User> addUser(@RequestBody User user) throws SQLException, ClassNotFoundException {
     userDao.add(user);
     return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
-    @PatchMapping("/changeUserName")
+    @PatchMapping("/change-username")
     public ResponseEntity<User> changeUserName(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException {
         return new ResponseEntity<>(userDao.userNameChanger(allRounder),HttpStatus.OK);
     }
