@@ -12,4 +12,6 @@ public class AllRounder {
     Calendar calendar;
     User user;
     User userNameChange;
+    int page;
+    int pageSize;
 }

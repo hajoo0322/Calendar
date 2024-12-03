@@ -23,6 +23,8 @@ public class CalendarRepository {
     public void addCalender(AllRounder allRounder) throws ClassNotFoundException, SQLException {
         CalendarStatement<AllRounder,AllRounder> calendarStatement;
         calendarStatement = new AddStatement(jdbcRepository);
+
+
         calendarStatement.calendarStatement(allRounder);
     }
 
@@ -54,26 +56,10 @@ public class CalendarRepository {
     }
 
     public List<Calendar> getPageCalendar(int page, int pageSize) throws ClassNotFoundException, SQLException {
-        Connection c = jdbcRepository.makeConnection();
-
-        PreparedStatement ps = c.prepareStatement(
-                "SELECT * FROM calendar LIMIT ? OFFSET ?"
-        );
-
-        ps.setInt(1, pageSize);
-        ps.setInt(2, (page-1)*pageSize);
-        ResultSet rs = ps.executeQuery();
-        List<Calendar> calendarList = new ArrayList<>();
-        while (rs.next()) {
-            Calendar calendar = new Calendar();
-            calendar.setUserName(rs.getString("username"));
-            calendar.setDetails(rs.getString("details"));
-            calendar.setDate(rs.getString("date"));
-            calendarList.add(calendar);
-        }
-        rs.close();
-        ps.close();
-        c.close();
-        return calendarList;
+        AllRounder allRounder =new AllRounder();
+        allRounder.setPage(page);
+        allRounder.setPageSize(pageSize);
+        CalendarStatement<AllRounder, List<Calendar>> calendarStatement = new GetPageStatement(jdbcRepository);
+        return calendarStatement.calendarStatement(allRounder);
     }
 }
