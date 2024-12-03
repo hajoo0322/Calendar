@@ -3,6 +3,8 @@ package com.example.demo.calendar.repository;
 import com.example.demo.calendar.entity.Calendar;
 import com.example.demo.calendar.entity.User;
 import com.example.demo.calendar.entity.UserCalendarRequest;
+import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
+import com.example.demo.calendar.repository.dbconnecter.OldRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -85,29 +87,27 @@ public class CalendarRepository {
     }
 
     public Calendar getPortionCalendar(User user) throws ClassNotFoundException, SQLException {
-        Connection c = jdbcRepository.makeConnection();
+        try (Connection c = jdbcRepository.makeConnection();
+             PreparedStatement ps = c.prepareStatement(
+                     "SELECT  * FROM calendar WHERE id = ? LIMIT 1"
+             )) {                    //1개만 조회하도록 변경
+            ps.setLong(1, user.getId());
 
-        PreparedStatement ps = c.prepareStatement(
-                "SELECT  * FROM calendar WHERE id = ? LIMIT 1"
-        );                    //1개만 조회하도록 변경
-        ps.setLong(1, user.getId());
-
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            Calendar calendar = new Calendar();
-            calendar.setUserName(rs.getString("userName"));
-            calendar.setDate(rs.getString("date"));
-            calendar.setDetails(rs.getString("details"));
-
-            rs.close();
-            ps.close();
-            c.close();
-            return calendar;
-        } else {
-            rs.close();
-            ps.close();
-            c.close();
-            throw new SQLException();
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Calendar calendar = new Calendar();
+                    calendar.setUserName(rs.getString("userName"));
+                    calendar.setDate(rs.getString("date"));
+                    calendar.setDetails(rs.getString("details"));
+                    return calendar;
+                } else {
+                    throw new SQLException();
+                }
+            } catch (SQLException e) {
+                throw new SQLException("데이터베이스 연결실패");
+            }
+        } catch (ClassNotFoundException e) {
+            throw new ClassNotFoundException("데이터베이스 드라이버를 찾을수 없습니다.");
         }
     }
 

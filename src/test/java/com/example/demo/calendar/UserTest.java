@@ -4,7 +4,7 @@ package com.example.demo.calendar;
 import com.example.demo.calendar.entity.Calendar;
 import com.example.demo.calendar.entity.User;
 import com.example.demo.calendar.entity.UserCalendarRequest;
-import com.example.demo.calendar.repository.OldRepository;
+import com.example.demo.calendar.repository.dbconnecter.OldRepository;
 import com.example.demo.calendar.repository.CalendarRepository;
 import com.example.demo.calendar.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;

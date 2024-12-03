@@ -1,6 +1,4 @@
-package com.example.demo.calendar.repository;
-
-import org.springframework.stereotype.Repository;
+package com.example.demo.calendar.repository.dbconnecter;
 
 import java.sql.Connection;
 import java.sql.SQLException;

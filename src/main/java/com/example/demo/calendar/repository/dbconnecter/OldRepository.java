@@ -1,4 +1,4 @@
-package com.example.demo.calendar.repository;
+package com.example.demo.calendar.repository.dbconnecter;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

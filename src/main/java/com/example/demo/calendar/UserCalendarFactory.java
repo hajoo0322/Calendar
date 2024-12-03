@@ -1,7 +1,7 @@
 package com.example.demo.calendar;
 
-import com.example.demo.calendar.repository.JdbcRepository;
-import com.example.demo.calendar.repository.OldRepository;
+import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
+import com.example.demo.calendar.repository.dbconnecter.OldRepository;
 import com.example.demo.calendar.repository.CalendarRepository;
 import com.example.demo.calendar.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
