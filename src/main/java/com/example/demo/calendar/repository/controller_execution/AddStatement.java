@@ -1,8 +1,7 @@
-package com.example.demo.calendar.repository.execution;
+package com.example.demo.calendar.repository.controller_execution;
 
 import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
-import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
