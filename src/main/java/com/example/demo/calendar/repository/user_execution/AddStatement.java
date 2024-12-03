@@ -24,8 +24,11 @@ JdbcRepository jdbcRepository;
             ps.setString(1, user.getName());
             ps.setString(2, user.getPassword());
             ps.executeUpdate();
-            ps.close();
-            c.close();
+            return user;
+        } catch (SQLException e) {
+            throw new SQLException("데이터 베이스 연결 실패" + e.getMessage());
+        } catch (RuntimeException e) {
+            throw new RuntimeException("데이터베이스 드라이버 문제발생" + e.getMessage());
         }
     }
 }

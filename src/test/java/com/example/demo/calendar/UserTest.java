@@ -18,7 +18,7 @@ import java.util.List;
 public class UserTest {
 
     @Test
-    public void addUser() throws SQLException, ClassNotFoundException {
+    public void addUser() throws SQLException, ClassNotFoundException, IdException {
         User user = new User();
         user.setName("한씨");
         user.setPassword("a123456");
@@ -27,7 +27,7 @@ public class UserTest {
     }
 
     @Test
-    public void getUser() throws SQLException, ClassNotFoundException {
+    public void getUser() throws SQLException, ClassNotFoundException, IdException {
         User user = new User();
         user.setName("한씨");
         user.setPassword("a123456");
