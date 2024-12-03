@@ -49,16 +49,8 @@ public class CalendarRepository {
     }
 
     public void deleteCalendar(String detail) throws SQLException, ClassNotFoundException {
-        Connection c = jdbcRepository.makeConnection();
-
-        PreparedStatement ps = c.prepareStatement(
-                "DELETE FROM calendar WHERE details = ?"
-        );
-        ps.setString(1, detail);
-        ps.executeUpdate();
-
-        ps.close();
-        c.close();
+        CalendarStatement<String, Object> calendarStatement = new DeleteStatement(jdbcRepository);
+        calendarStatement.calendarStatement(detail);
     }
 
     public List<Calendar> getPageCalendar(int page, int pageSize) throws ClassNotFoundException, SQLException {
