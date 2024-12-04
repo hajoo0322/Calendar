@@ -23,17 +23,16 @@ public class CalendarRepository {
         return calendarStatement.calendarStatement(allRounder).getCalendar();
     }
 
-    public List<Calendar> getCalendar(Long id, String date) throws ClassNotFoundException, SQLException, IdException {
+    public List<Calendar> getCalendar(Long id) throws ClassNotFoundException, SQLException, IdException {
         AllRounder allRounder = new AllRounder();
         allRounder.setId(id);
-        allRounder.setDate(date);
-        CalendarStatement<AllRounder,List<Calendar>> calendarStatement = new GetStatement(jdbcRepository);
+         CalendarStatement<AllRounder,List<Calendar>> calendarStatement = new GetStatement(jdbcRepository);
         return calendarStatement.calendarStatement(allRounder);
     }
 
-    public Calendar getPortionCalendar(User user) throws ClassNotFoundException, SQLException, IdException {
-        CalendarStatement<User,Calendar> calendarStatement =new GetPortionStatement(jdbcRepository);
-        return calendarStatement.calendarStatement(user);
+    public Calendar getPortionCalendar(Long id) throws ClassNotFoundException, SQLException, IdException {
+        CalendarStatement<Long,Calendar> calendarStatement =new GetPortionStatement(jdbcRepository);
+        return calendarStatement.calendarStatement(id);
     }
 
     public Calendar changeDetails(AllRounder allRounder) throws ClassNotFoundException, SQLException, IdException {

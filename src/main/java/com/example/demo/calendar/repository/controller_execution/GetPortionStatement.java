@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class GetPortionStatement implements CalendarStatement<User, Calendar>{
+public class GetPortionStatement implements CalendarStatement<Long, Calendar>{
     JdbcRepository jdbcRepository;
 
     public GetPortionStatement(JdbcRepository jdbcRepository) {
@@ -18,12 +18,12 @@ public class GetPortionStatement implements CalendarStatement<User, Calendar>{
     }
 
     @Override
-    public Calendar calendarStatement(User user) throws SQLException, ClassNotFoundException, IdException {
+    public Calendar calendarStatement(Long id) throws SQLException, ClassNotFoundException, IdException {
         try (Connection c = jdbcRepository.makeConnection();
              PreparedStatement ps = c.prepareStatement(
                      "SELECT  * FROM calendar WHERE id = ? LIMIT 1"
              )) {                    //1개만 조회하도록 변경
-            ps.setLong(1, user.getId());
+            ps.setLong(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {

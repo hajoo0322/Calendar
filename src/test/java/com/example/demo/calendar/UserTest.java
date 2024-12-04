@@ -57,7 +57,7 @@ public class UserTest {
         User user = new User();
         user.setId(1L);
         CalendarRepository calendarDao = new CalendarRepository(new OldRepository());
-        List<Calendar> calendar = calendarDao.getCalendar(user.getId(),"2024-12-01");
+        List<Calendar> calendar = calendarDao.getCalendar(user.getId());
         Assertions.assertNotNull(calendar);
         Assertions.assertTrue(calendar.size() > 0);
     }

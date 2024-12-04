@@ -26,14 +26,14 @@ public class CalendarController {
         this.userDao = userDao;
     }
 
-    @GetMapping("/all/{date}/{id}")
-    public ResponseEntity<List<Calendar>> getCalender(@PathVariable Long id, @PathVariable("date") String date) throws ClassNotFoundException, SQLException, IdException {
-        return new ResponseEntity<>(calendarDao.getCalendar(id, date),HttpStatus.OK);
+    @GetMapping("/all/{id}")
+    public ResponseEntity<List<Calendar>> getCalender(@PathVariable("id") Long id) throws ClassNotFoundException, SQLException, IdException {
+        return new ResponseEntity<>(calendarDao.getCalendar(id),HttpStatus.OK);
     }
 
-    @GetMapping("/portion")
-    public ResponseEntity<Calendar> getPortionCalender(@RequestBody User user) throws SQLException, ClassNotFoundException, IdException {
-        return new ResponseEntity<>(calendarDao.getPortionCalendar(user),HttpStatus.OK);
+    @GetMapping("/portion/{id}")
+    public ResponseEntity<Calendar> getPortionCalender(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException, IdException {
+        return new ResponseEntity<>(calendarDao.getPortionCalendar(id),HttpStatus.OK);
     }
 
     @GetMapping("/page-nation")
