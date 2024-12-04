@@ -5,6 +5,7 @@ import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.DTO.ValidationGroup;
 import com.example.demo.calendar.exception.IdException;
 import com.example.demo.calendar.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,8 +27,8 @@ public class UserController {
         return new ResponseEntity<>(userDao.login(user), HttpStatus.OK);
     }
 
-    @PostMapping("/user")
-    public ResponseEntity<User> addUser(@RequestBody User user) throws SQLException, ClassNotFoundException, IdException {
+    @PostMapping("/new")
+    public ResponseEntity<User> addUser(@Valid @RequestBody User user) throws SQLException, ClassNotFoundException, IdException {
     userDao.add(user);
     return new ResponseEntity<>(user,HttpStatus.OK);
     }

@@ -23,26 +23,12 @@ public class GetStatement implements CalendarStatement<AllRounder, List<Calendar
         List<Calendar> calendarList = new ArrayList<>();  // 결과를 담을 리스트
 
 
-        String sqlQuery = ""; // 쿼리가 문자열로 작성되니까 객체에 담아서 파라미터로 전달하도록함
+        String sqlQuery = "SELECT  * FROM calendar WHERE id = ?"; // 쿼리가 문자열로 작성되니까 객체에 담아서 파라미터로 전달하도록함
 
-        if (allrounder.getId() != null && allrounder.getDate() != null) {// 둘모두 값을 가지고있을때
-            sqlQuery = "SELECT  * FROM calendar WHERE date = ? AND id = ? ";
-        } else if (allrounder.getDate() == null) { //날짜에 해당하는 값이 없을때
-            sqlQuery = "SELECT  * FROM calendar WHERE id = ?";
-        } else if (allrounder.getId() == null) { // 아이디에 해당하는 값이 없을때
-            sqlQuery = "SELECT  * FROM calendar WHERE date = ?";
-        } else if (allrounder.getDate() == null && allrounder.getId() == null) {//둘다 없으면 찾을수 없으니까 예외던지기
-            throw new SQLException();
-        }
         try (Connection c = jdbcRepository.makeConnection();
              PreparedStatement ps = c.prepareStatement(sqlQuery)) {
-            int index = 1;
-            if (allrounder.getDate() != null) {//날짜가 있다면 1번에 들어가고 증가시키기
-                ps.setString(index++, allrounder.getDate());
-            }
-            if (allrounder.getId() != null) {//만약날짜가 없었다면 그대로1 날짜가있다면2가되서 정상작동
-                ps.setLong(index, allrounder.getId());
-            }
+
+            ps.setLong(1, allrounder.getId());
 
             try (ResultSet rs = ps.executeQuery()) {
 
