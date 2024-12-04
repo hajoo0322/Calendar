@@ -21,12 +21,11 @@ public class AddStatement implements CalendarStatement<AllRounder,AllRounder> {
              PreparedStatement ps = c.prepareStatement(
                      "insert into calendar(id, userName, date, details) values (?,?,?,?)"
              )) {
-
-
             ps.setLong(1, allRounder.getUser().getId());
             ps.setString(2, allRounder.getCalendar().getUserName());
             ps.setString(3, allRounder.getCalendar().getDate());
             ps.setString(4, allRounder.getCalendar().getDetails());
+            ps.executeUpdate();
             return allRounder;
         } catch (SQLException e) {
             throw new SQLException("데이터 베이스 연결 실패" + e.getMessage());

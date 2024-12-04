@@ -13,6 +13,10 @@ import java.util.List;
 public class CalendarRepository {
     JdbcRepository jdbcRepository;
 
+    public CalendarRepository(JdbcRepository jdbcRepository) {
+        this.jdbcRepository = jdbcRepository;
+    }
+
     public Calendar addCalender(AllRounder allRounder) throws ClassNotFoundException, SQLException, IdException {
         CalendarStatement<AllRounder,AllRounder> calendarStatement;
         calendarStatement = new AddStatement(jdbcRepository);

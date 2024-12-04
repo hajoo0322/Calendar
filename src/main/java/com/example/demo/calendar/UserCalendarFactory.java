@@ -12,7 +12,7 @@ public class UserCalendarFactory {
 
     @Bean
     public CalendarRepository calendarDao() {
-        return new CalendarRepository();
+        return new CalendarRepository(connectionmaker());
     }
 
     @Bean

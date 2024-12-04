@@ -2,10 +2,12 @@ package com.example.demo.calendar.Controller;
 
 import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.DTO.User;
+import com.example.demo.calendar.DTO.ValidationGroup;
 import com.example.demo.calendar.exception.IdException;
 import com.example.demo.calendar.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -31,7 +33,7 @@ public class UserController {
     }
 
     @PatchMapping("/change-username")
-    public ResponseEntity<User> changeUserName(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException, IdException {
+    public ResponseEntity<User> changeUserName(@Validated(ValidationGroup.Login.class) @RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException, IdException {
         userDao.login(allRounder.getUser());
         return new ResponseEntity<>(userDao.userNameChanger(allRounder),HttpStatus.OK);
     }

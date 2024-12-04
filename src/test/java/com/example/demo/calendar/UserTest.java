@@ -44,11 +44,11 @@ public class UserTest {
         user.setPassword("a123456");
         Calendar calendar = new Calendar();
         calendar.setUserName(user.getName());
-        calendar.setDetails("18시에 밥을먹는다.");
+        calendar.setDetails("토요일날 저녁을 먹는대 밥먹지말래");
         AllRounder allRounder = new AllRounder();
         allRounder.setUser(user);
         allRounder.setCalendar(calendar);
-        CalendarRepository calendarDao = new CalendarRepository();
+        CalendarRepository calendarDao = new CalendarRepository(new OldRepository());
         calendarDao.addCalender(allRounder);
     }
 
@@ -56,7 +56,7 @@ public class UserTest {
     public void getCalendar() throws SQLException, ClassNotFoundException, IdException {
         User user = new User();
         user.setId(1L);
-        CalendarRepository calendarDao = new CalendarRepository();
+        CalendarRepository calendarDao = new CalendarRepository(new OldRepository());
         List<Calendar> calendar = calendarDao.getCalendar(user.getId(),"2024-12-01");
         Assertions.assertNotNull(calendar);
         Assertions.assertTrue(calendar.size() > 0);
@@ -64,7 +64,7 @@ public class UserTest {
 
     @Test
     public void pageTest() throws SQLException, ClassNotFoundException, IdException {
-        CalendarRepository calendarDao = new CalendarRepository();
+        CalendarRepository calendarDao = new CalendarRepository(new OldRepository());
         List<Calendar> pageCalendar = calendarDao.getPageCalendar(1, 10);
 
         Assertions.assertNotNull(pageCalendar);

@@ -3,11 +3,13 @@ package com.example.demo.calendar.Controller;
 import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.DTO.Calendar;
 import com.example.demo.calendar.DTO.User;
+import com.example.demo.calendar.DTO.ValidationGroup;
 import com.example.demo.calendar.repository.CalendarRepository;
 import com.example.demo.calendar.repository.UserRepository;
 import com.example.demo.calendar.exception.IdException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -41,13 +43,13 @@ public class CalendarController {
     }
 
     @PostMapping
-    public ResponseEntity<Calendar> setCalendar(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException, IdException {
+    public ResponseEntity<Calendar> setCalendar(@Validated(ValidationGroup.Calendar.class) @RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException, IdException {
         Calendar calendar = calendarDao.addCalender(allRounder);
         return new ResponseEntity<>(calendar, HttpStatus.OK);
     }
 
     @PatchMapping
-    public ResponseEntity<Calendar> changeDetails(@RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException, IdException {
+    public ResponseEntity<Calendar> changeDetails(@Validated(ValidationGroup.Login.class) @RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException, IdException {
         userDao.login(allRounder.getUser());
          return new ResponseEntity<>(calendarDao.changeDetails(allRounder),HttpStatus.OK);
     }
