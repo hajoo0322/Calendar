@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Component
+
 public class GetPortionStatement implements CalendarStatement<Long, Calendar>{
     JdbcRepository jdbcRepository;
 

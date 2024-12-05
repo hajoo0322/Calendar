@@ -13,37 +13,37 @@ import java.util.List;
 
 @Repository
 public class CalendarRepository {
-    JdbcRepository jdbcRepository;
+    UserCalendarFactory userCalendarFactory;
 
-    public CalendarRepository(JdbcRepository jdbcRepository) {
-        this.jdbcRepository = jdbcRepository;
+    public CalendarRepository(UserCalendarFactory userCalendarFactory) {
+        this.userCalendarFactory = userCalendarFactory;
     }
 
     public Calendar addCalender(AllRounder allRounder) throws ClassNotFoundException, SQLException, IdException {
         CalendarStatement<AllRounder,AllRounder> calendarStatement;
-        calendarStatement = new AddStatement(jdbcRepository);
+        calendarStatement = userCalendarFactory.addStatement();
         return calendarStatement.calendarStatement(allRounder).getCalendar();
     }
 
     public List<Calendar> getCalendar(Long id) throws ClassNotFoundException, SQLException, IdException {
         AllRounder allRounder = new AllRounder();
         allRounder.setId(id);
-        CalendarStatement<AllRounder,List<Calendar>> calendarStatement = new GetStatement(jdbcRepository);
+        CalendarStatement<AllRounder,List<Calendar>> calendarStatement = userCalendarFactory.getStatement();
         return calendarStatement.calendarStatement(allRounder);
     }
 
     public Calendar getPortionCalendar(Long id) throws ClassNotFoundException, SQLException, IdException {
-        CalendarStatement<Long,Calendar> calendarStatement =new GetPortionStatement(jdbcRepository);
+        CalendarStatement<Long,Calendar> calendarStatement = userCalendarFactory.getPortionStatement();
         return calendarStatement.calendarStatement(id);
     }
 
     public Calendar changeDetails(AllRounder allRounder) throws ClassNotFoundException, SQLException, IdException {
-        CalendarStatement<AllRounder, Calendar> calendarStatement = new ChangeStatement(jdbcRepository);
+        CalendarStatement<AllRounder, Calendar> calendarStatement = userCalendarFactory.changeStatement();
         return calendarStatement.calendarStatement(allRounder);
     }
 
     public void deleteCalendar(String detail) throws SQLException, ClassNotFoundException, IdException {
-        CalendarStatement<String, Object> calendarStatement = new DeleteStatement(jdbcRepository);
+        CalendarStatement<String, Object> calendarStatement = userCalendarFactory.deleteStatement();
         calendarStatement.calendarStatement(detail);
     }
 
@@ -51,7 +51,7 @@ public class CalendarRepository {
         AllRounder allRounder =new AllRounder();
         allRounder.setPage(page);
         allRounder.setPageSize(pageSize);
-        CalendarStatement<AllRounder, List<Calendar>> calendarStatement = new GetPageStatement(jdbcRepository);
+        CalendarStatement<AllRounder, List<Calendar>> calendarStatement = userCalendarFactory.getPageStatement();
         return calendarStatement.calendarStatement(allRounder);
     }
 }

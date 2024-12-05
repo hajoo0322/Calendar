@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@Component
+
 public class AddStatement implements UserStatement<User>{
 JdbcRepository jdbcRepository;
 
