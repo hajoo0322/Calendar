@@ -4,12 +4,14 @@ import com.example.demo.calendar.DTO.Calendar;
 import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
 import com.example.demo.calendar.exception.IdException;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class GetPortionStatement implements CalendarStatement<Long, Calendar>{
     JdbcRepository jdbcRepository;
 

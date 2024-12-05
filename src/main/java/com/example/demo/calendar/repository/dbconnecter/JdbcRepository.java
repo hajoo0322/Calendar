@@ -6,5 +6,5 @@ import java.sql.SQLException;
 
 public interface JdbcRepository {
 
-    public Connection makeConnection() throws ClassNotFoundException, SQLException;
+    Connection makeConnection() throws ClassNotFoundException, SQLException;
 }

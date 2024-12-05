@@ -8,10 +8,11 @@ import com.example.demo.calendar.repository.user_execution.AddStatement;
 import com.example.demo.calendar.repository.user_execution.LoginStatement;
 import com.example.demo.calendar.repository.user_execution.NameChangeStatement;
 import com.example.demo.calendar.repository.user_execution.UserStatement;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
-
+@Repository
 public class UserRepository {
     JdbcRepository jdbcRepository;
 

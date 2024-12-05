@@ -22,20 +22,15 @@ public class UserController {
         this.userDao = userDao;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody User user) throws SQLException, ClassNotFoundException, IdException {
-        return new ResponseEntity<>(userDao.login(user), HttpStatus.OK);
-    }
-
     @PostMapping("/new")
     public ResponseEntity<User> addUser(@Valid @RequestBody User user) throws SQLException, ClassNotFoundException, IdException {
-    userDao.add(user);
-    return new ResponseEntity<>(user,HttpStatus.OK);
+        userDao.add(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PatchMapping("/change-username")
     public ResponseEntity<User> changeUserName(@Validated(ValidationGroup.Login.class) @RequestBody AllRounder allRounder) throws SQLException, ClassNotFoundException, IdException {
         userDao.login(allRounder.getUser());
-        return new ResponseEntity<>(userDao.userNameChanger(allRounder),HttpStatus.OK);
+        return new ResponseEntity<>(userDao.userNameChanger(allRounder), HttpStatus.OK);
     }
 }

@@ -1,10 +1,13 @@
 package com.example.demo.calendar.repository.dbconnecter;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
+@Component
 public class OldRepository implements JdbcRepository {
 
     @Override

@@ -6,10 +6,12 @@ import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
 import com.example.demo.calendar.exception.IdException;
 import com.example.demo.calendar.repository.controller_execution.*;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public class CalendarRepository {
     JdbcRepository jdbcRepository;
 
@@ -26,7 +28,7 @@ public class CalendarRepository {
     public List<Calendar> getCalendar(Long id) throws ClassNotFoundException, SQLException, IdException {
         AllRounder allRounder = new AllRounder();
         allRounder.setId(id);
-         CalendarStatement<AllRounder,List<Calendar>> calendarStatement = new GetStatement(jdbcRepository);
+        CalendarStatement<AllRounder,List<Calendar>> calendarStatement = new GetStatement(jdbcRepository);
         return calendarStatement.calendarStatement(allRounder);
     }
 
