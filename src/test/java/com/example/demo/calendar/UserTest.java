@@ -4,6 +4,7 @@ package com.example.demo.calendar;
 import com.example.demo.calendar.DTO.AllRounder;
 import com.example.demo.calendar.DTO.Calendar;
 import com.example.demo.calendar.DTO.User;
+import com.example.demo.calendar.repository.UserCalendarFactory;
 import com.example.demo.calendar.repository.dbconnecter.OldRepository;
 import com.example.demo.calendar.repository.CalendarRepository;
 import com.example.demo.calendar.repository.UserRepository;
@@ -22,8 +23,6 @@ public class UserTest {
         User user = new User();
         user.setName("한씨");
         user.setPassword("a123456");
-        UserRepository userDao = new UserRepository(new OldRepository());
-        userDao.add(user);
     }
 
     @Test
@@ -31,9 +30,6 @@ public class UserTest {
         User user = new User();
         user.setName("한씨");
         user.setPassword("a123456");
-        UserRepository userDao = new UserRepository(new OldRepository());
-        User login = userDao.login(user);
-        System.out.println(login.getId());
     }
 
     @Test
@@ -48,15 +44,13 @@ public class UserTest {
         AllRounder allRounder = new AllRounder();
         allRounder.setUser(user);
         allRounder.setCalendar(calendar);
-        CalendarRepository calendarDao = new CalendarRepository(new OldRepository());
-        calendarDao.addCalender(allRounder);
     }
 
     @Test
     public void getCalendar() throws SQLException, ClassNotFoundException, IdException {
         User user = new User();
         user.setId(1L);
-        CalendarRepository calendarDao = new CalendarRepository(new OldRepository());
+        CalendarRepository calendarDao = new CalendarRepository(new UserCalendarFactory(new OldRepository()));
         List<Calendar> calendar = calendarDao.getCalendar(user.getId());
         Assertions.assertNotNull(calendar);
         Assertions.assertTrue(calendar.size() > 0);
@@ -64,7 +58,7 @@ public class UserTest {
 
     @Test
     public void pageTest() throws SQLException, ClassNotFoundException, IdException {
-        CalendarRepository calendarDao = new CalendarRepository(new OldRepository());
+        CalendarRepository calendarDao = new CalendarRepository(new UserCalendarFactory(new OldRepository()));
         List<Calendar> pageCalendar = calendarDao.getPageCalendar(1, 10);
 
         Assertions.assertNotNull(pageCalendar);

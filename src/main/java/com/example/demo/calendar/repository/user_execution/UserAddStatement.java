@@ -2,17 +2,16 @@ package com.example.demo.calendar.repository.user_execution;
 
 import com.example.demo.calendar.DTO.User;
 import com.example.demo.calendar.repository.dbconnecter.JdbcRepository;
-import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 
-public class AddStatement implements UserStatement<User>{
+public class UserAddStatement implements UserStatement<User>{
 JdbcRepository jdbcRepository;
 
-    public AddStatement(JdbcRepository jdbcRepository) {
+    public UserAddStatement(JdbcRepository jdbcRepository) {
         this.jdbcRepository = jdbcRepository;
     }
 
